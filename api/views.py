@@ -21,19 +21,6 @@ def customer(request, id):
     return Customer.objects.get(id=id)
 
 
-@require_GET
-@staff_member_required
-def customer_since(request, time):
-    """
-    Method: GET
-    Path: /api/customer/since/<time>
-    Get customers modified since given time:
-    - time: last modification time in ISO format, such as '2018-08-07T12:13:00+02:00'
-    Return: the customers as Json
-    """
-    return list(Customer.objects.filter(modification_time__gte=time))
-
-
 @require_POST
 @staff_member_required
 def customer_create(request):

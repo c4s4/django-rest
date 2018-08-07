@@ -28,20 +28,6 @@ class CustomerTestCase(TestCase):
         }
         self.assertDictEqual(customer, expected)
     
-    def test_customer_since(self):
-        response = self.client.get('/api/customer/since/2000-01-01T00:00:00+02:00')
-        self.assertEqual(response.status_code, 200)
-        customers = sorted(json.loads(response.content), key=lambda c: c['id'])
-        self.assertEqual(len(customers), 2)
-        expected = {
-            'id': 1,
-            'email': 'bob@example.com',
-            'first_name': 'Robert',
-            'last_name': 'Jenning',
-            'birth_date': '1966-07-14',
-        }
-        self.assertDictEqual(customers[0], expected)
-    
     def test_customer_create(self):
         data = {
             'email': 'rob@example.com',
@@ -67,7 +53,7 @@ class CustomerTestCase(TestCase):
         }
         self.assertDictEqual(customer, expected)
 
-    def test_customer_search_2(self):
+    def test_customer_search_two_filters(self):
         response = self.client.get('/api/customer/search?first_name=Robert&id=1')
         self.assertEqual(response.status_code, 200)
         customers = json.loads(response.content)
@@ -82,7 +68,7 @@ class CustomerTestCase(TestCase):
         }
         self.assertDictEqual(customer, expected)
 
-    def test_customer_search_3(self):
+    def test_customer_search_endswith(self):
         response = self.client.get('/api/customer/search?email__endswith=example.com')
         self.assertEqual(response.status_code, 200)
         customers = json.loads(response.content)
@@ -96,3 +82,33 @@ class CustomerTestCase(TestCase):
             'birth_date': '1966-07-14',
         }
         self.assertDictEqual(customer, expected)
+
+    def test_customer_search_since(self):
+        params = {'modification_time__gte': '2000-01-01T00:00:00+02:00'}
+        response = self.client.get('/api/customer/search', data=params)
+        self.assertEqual(response.status_code, 200)
+        customers = sorted(json.loads(response.content), key=lambda c: c['id'])
+        self.assertEqual(len(customers), 2)
+        expected = {
+            'id': 1,
+            'email': 'bob@example.com',
+            'first_name': 'Robert',
+            'last_name': 'Jenning',
+            'birth_date': '1966-07-14',
+        }
+        self.assertDictEqual(customers[0], expected)
+    
+    def test_customer_search_all(self):
+        response = self.client.get('/api/customer/search')
+        self.assertEqual(response.status_code, 200)
+        customers = sorted(json.loads(response.content), key=lambda c: c['id'])
+        self.assertEqual(len(customers), 2)
+        expected = {
+            'id': 1,
+            'email': 'bob@example.com',
+            'first_name': 'Robert',
+            'last_name': 'Jenning',
+            'birth_date': '1966-07-14',
+        }
+        self.assertDictEqual(customers[0], expected)
+    
