@@ -31,8 +31,7 @@ def customer_create(request):
     - data: customer fields as json in request body
     Return: nothing
     """
-    customer = json_to_model(request.body.decode('utf-8'), Customer)
-    customer.save()
+    json_to_model(request.body.decode('utf-8'), Customer).save()
     return HttpResponse()
 
 
