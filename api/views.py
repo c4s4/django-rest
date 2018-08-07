@@ -3,8 +3,10 @@ from django.views.decorators.http import require_GET, require_POST
 from api.models import Customer
 from django.core import serializers
 from .common import json_to_model
+from django.contrib.admin.views.decorators import staff_member_required
 
 
+@staff_member_required
 @require_GET
 def customer(request, id):
     """
@@ -17,6 +19,7 @@ def customer(request, id):
     return Customer.objects.get(id=id)
 
 
+@staff_member_required
 @require_GET
 def customer_since(request, time):
     """
@@ -29,6 +32,7 @@ def customer_since(request, time):
     return list(Customer.objects.filter(modification_time__gte=time))
 
 
+@staff_member_required
 @require_POST
 def customer_create(request):
     """
