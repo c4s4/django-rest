@@ -1,8 +1,9 @@
 # encoding: UTF-8
 
-from django.test import TestCase, Client
-from api.models import Customer
 import json
+from api.models import Customer
+from django.test import TestCase, Client
+
 
 class CustomerTestCase(TestCase):
 
@@ -38,3 +39,14 @@ class CustomerTestCase(TestCase):
             'birth_date': '1966-07-14',
         }
         self.assertDictEqual(customers[0], expected)
+    
+    def test_customer_create(self):
+        client = Client()
+        data = {
+            'email': 'rob@example.com',
+            'first_name': 'Robert',
+            'last_name': 'Stewart',
+            'birth_date': '1976-03-04',
+        }
+        response = client.post('/api/customer/create', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
