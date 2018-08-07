@@ -6,8 +6,8 @@ from .common import json_to_model
 from django.contrib.admin.views.decorators import staff_member_required
 
 
-@staff_member_required
 @require_GET
+@staff_member_required
 def customer(request, id):
     """
     Method: GET
@@ -19,8 +19,8 @@ def customer(request, id):
     return Customer.objects.get(id=id)
 
 
-@staff_member_required
 @require_GET
+@staff_member_required
 def customer_since(request, time):
     """
     Method: GET
@@ -32,8 +32,8 @@ def customer_since(request, time):
     return list(Customer.objects.filter(modification_time__gte=time))
 
 
-@staff_member_required
 @require_POST
+@staff_member_required
 def customer_create(request):
     """
     Method: POST
