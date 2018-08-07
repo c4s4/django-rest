@@ -1,8 +1,10 @@
-from django.http import HttpResponse
-from django.views.decorators.http import require_GET, require_POST
+# encoding: UTF-8
+
 from api.models import Customer
+from api.common import json_to_model
+from django.http import HttpResponse
 from django.core import serializers
-from .common import json_to_model
+from django.views.decorators.http import require_GET, require_POST
 from django.contrib.admin.views.decorators import staff_member_required
 
 
