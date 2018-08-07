@@ -55,7 +55,8 @@ def customer_search(request):
     """
     Method: GET
     Path: /api/customer/search<id>
-    Search for customers. Search parameters are passed on the URL.
+    Search for customers. Search parameters are passed as URL parameters. Thus to get customers
+    with named Bob, you would add parameters '?first_name=Bob'.
     Return: the customers list
     """
     filters = dict(request.GET.items())
