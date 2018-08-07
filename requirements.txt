@@ -1,3 +1,4 @@
 django
 pylint
 yapf
+requests

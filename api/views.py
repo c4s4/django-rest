@@ -2,24 +2,42 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_GET, require_POST
 from api.models import Customer
 from django.core import serializers
+from .common import json_to_model
 
 
 @require_GET
 def customer(request, id):
-    return Customer.objects.filter(id=id)
+    """
+    Method: GET
+    Path: /api/customer/<id>
+    Get given customer:
+    - id: the customer ID
+    Return: the customer as Json
+    """
+    return Customer.objects.get(id=id)
 
 
 @require_GET
 def customer_since(request, time):
-    return Customer.objects.filter(modification_time__gte=time)
+    """
+    Method: GET
+    Path: /api/customer/since/<time>
+    Get customers modified since given time:
+    - time: last modification time in ISO format, such as '2018-08-07T12:13:00+02:00'
+    Return: the customers as Json
+    """
+    return list(Customer.objects.filter(modification_time__gte=time))
 
 
 @require_POST
 def customer_create(request):
-    fields = request.body.decode('utf-8')
-    json = '[{"model": "api.models.Customer", "fields": %s}]' % fields
-    # DEBUG
-    print(">>>>>>>>", json)
-    customers = serializers.deserialize('json', json)
-    for customer in customers:
-        customer.save()
+    """
+    Method: POST
+    Path: /api/customer/create
+    Create a customer:
+    - data: customer fields as json in request body
+    Return: nothing
+    """
+    customer = json_to_model(request.body.decode('utf-8'), Customer)
+    customer.save()
+    return HttpResponse()
