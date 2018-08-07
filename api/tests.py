@@ -27,7 +27,7 @@ class CustomerTestCase(TestCase):
             'birth_date': '1966-07-14',
         }
         self.assertDictEqual(customer, expected)
-
+    
     def test_customer_since(self):
         response = self.client.get('/api/customer/since/2000-01-01T00:00:00+02:00')
         self.assertEqual(response.status_code, 200)
@@ -51,3 +51,48 @@ class CustomerTestCase(TestCase):
         }
         response = self.client.post('/api/customer/create', data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
+    def test_customer_search(self):
+        response = self.client.get('/api/customer/search?first_name=Robert')
+        self.assertEqual(response.status_code, 200)
+        customers = json.loads(response.content)
+        self.assertEqual(len(customers), 1)
+        customer = customers[0]
+        expected = {
+            'id': 1,
+            'email': 'bob@example.com',
+            'first_name': 'Robert',
+            'last_name': 'Jenning',
+            'birth_date': '1966-07-14',
+        }
+        self.assertDictEqual(customer, expected)
+
+    def test_customer_search_2(self):
+        response = self.client.get('/api/customer/search?first_name=Robert&id=1')
+        self.assertEqual(response.status_code, 200)
+        customers = json.loads(response.content)
+        self.assertEqual(len(customers), 1)
+        customer = customers[0]
+        expected = {
+            'id': 1,
+            'email': 'bob@example.com',
+            'first_name': 'Robert',
+            'last_name': 'Jenning',
+            'birth_date': '1966-07-14',
+        }
+        self.assertDictEqual(customer, expected)
+
+    def test_customer_search_3(self):
+        response = self.client.get('/api/customer/search?email__endswith=example.com')
+        self.assertEqual(response.status_code, 200)
+        customers = json.loads(response.content)
+        self.assertEqual(len(customers), 2)
+        customer = customers[0]
+        expected = {
+            'id': 1,
+            'email': 'bob@example.com',
+            'first_name': 'Robert',
+            'last_name': 'Jenning',
+            'birth_date': '1966-07-14',
+        }
+        self.assertDictEqual(customer, expected)

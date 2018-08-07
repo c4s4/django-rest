@@ -47,3 +47,16 @@ def customer_create(request):
     customer = json_to_model(request.body.decode('utf-8'), Customer)
     customer.save()
     return HttpResponse()
+
+
+@require_GET
+@staff_member_required
+def customer_search(request):
+    """
+    Method: GET
+    Path: /api/customer/search<id>
+    Search for customers. Search parameters are passed on the URL.
+    Return: the customers list
+    """
+    filters = dict(request.GET.items())
+    return list(Customer.objects.filter(**filters))
