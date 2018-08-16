@@ -46,4 +46,4 @@ def customer_search(request):
     Return: the customers list
     """
     filters = dict(request.GET.items())
-    return list(Customer.objects.filter(**filters))
+    return Customer.objects.filter(**filters)

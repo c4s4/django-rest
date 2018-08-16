@@ -1,5 +1,9 @@
 # encoding: UTF-8
 
+"""
+Module for common stuff, such as model to json conversions.
+"""
+
 import json
 from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
@@ -15,13 +19,13 @@ def model_to_json(model):
     return json.dumps(dictionnary, cls=DjangoJSONEncoder)
 
 
-def models_to_json(models):
+def queryset_to_json(queryset):
     """
-    Serialize a list of models to Json:
-    - models: the list of model objects to serialize.
+    Serialize a queryset to Json:
+    - queryset: the queryset to serialize.
     Return: the json as a string
     """
-    list_dicts = [model_to_dict(m) for m in models]
+    list_dicts = [model_to_dict(m) for m in list(queryset)]
     return json.dumps(list_dicts, cls=DjangoJSONEncoder)
 
 

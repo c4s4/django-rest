@@ -15,7 +15,7 @@ class CustomerTestCase(TestCase):
         Customer.objects.create(id=1, email='bob@example.com', first_name='Robert', last_name='Jenning', birth_date='1966-07-14')
         Customer.objects.create(id=2, email='fer@example.com', first_name='Ferdinand', last_name='Durand', birth_date='1987-08-24')
     
-    def test_customer(self):
+    def test_customer_get(self):
         response = self.client.get('/api/customer/1')
         self.assertEqual(response.status_code, 200)
         customer = json.loads(response.content)
