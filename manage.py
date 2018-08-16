@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# encoding: UTF-8
+# pylint: disable=missing-docstring
+
 import os
 import sys
 

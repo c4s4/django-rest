@@ -1,9 +1,16 @@
 # encoding: UTF-8
 
+'''
+Module for models.
+'''
+
 from django.db import models
 
 
 class Customer(models.Model):
+    '''
+    Class for a customer.
+    '''
 
     email = models.CharField(max_length=100)
     first_name = models.CharField(max_length=20)

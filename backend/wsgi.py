@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# pylint: disable=invalid-name
+
 """
 WSGI config for backend project.
 

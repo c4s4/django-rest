@@ -1,9 +1,13 @@
 # encoding: UTF-8
 
-from .common import model_to_json, queryset_to_json
+'''
+Module for middlewares.
+'''
+
 from django.http import HttpResponse
 from django.db.models import Model
 from django.db.models.query import QuerySet
+from .common import model_to_json, queryset_to_json
 
 
 def json_middleware(get_response):

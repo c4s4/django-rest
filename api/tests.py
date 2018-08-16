@@ -1,20 +1,21 @@
 # encoding: UTF-8
+# pylint: disable=line-too-long,invalid-name,missing-docstring,no-member
 
 import json
-from api.models import Customer
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from api.models import Customer
 
 
 class CustomerTestCase(TestCase):
 
     def setUp(self):
-        User.objects.create_user(username='test', password='test', email='test@example.com',  is_staff=True)
+        User.objects.create_user(username='test', password='test', email='test@example.com', is_staff=True)
         self.client = Client()
         self.client.login(username='test', password='test')
         Customer.objects.create(id=1, email='bob@example.com', first_name='Robert', last_name='Jenning', birth_date='1966-07-14')
         Customer.objects.create(id=2, email='fer@example.com', first_name='Ferdinand', last_name='Durand', birth_date='1987-08-24')
-    
+
     def test_customer_get(self):
         response = self.client.get('/api/customer/1')
         self.assertEqual(response.status_code, 200)
@@ -27,7 +28,7 @@ class CustomerTestCase(TestCase):
             'birth_date': '1966-07-14',
         }
         self.assertDictEqual(customer, expected)
-    
+
     def test_customer_create(self):
         data = {
             'email': 'rob@example.com',
@@ -97,7 +98,7 @@ class CustomerTestCase(TestCase):
             'birth_date': '1966-07-14',
         }
         self.assertDictEqual(customers[0], expected)
-    
+
     def test_customer_search_all(self):
         response = self.client.get('/api/customer/search')
         self.assertEqual(response.status_code, 200)

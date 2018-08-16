@@ -1,16 +1,20 @@
 # encoding: UTF-8
+# pylint: disable=no-member,unused-argument
 
-from api.models import Customer
-from api.common import json_to_model
+'''
+Module for views.
+'''
+
 from django.http import HttpResponse
-from django.core import serializers
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.admin.views.decorators import staff_member_required
+from api.models import Customer
+from api.common import json_to_model
 
 
 @require_GET
 @staff_member_required
-def customer(request, id):
+def customer(request, customer_id):
     """
     Method: GET
     Path: /api/customer/<id>
@@ -18,7 +22,7 @@ def customer(request, id):
     - id: the customer ID
     Return: the customer as Json
     """
-    return Customer.objects.get(id=id)
+    return Customer.objects.get(id=customer_id)
 
 
 @require_POST
