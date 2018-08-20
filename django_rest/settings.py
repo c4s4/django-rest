@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'api.middlewares.json_middleware',
+    'api.middlewares.pagination_middleware',
 ]
 
 ROOT_URLCONF = 'django_rest.urls'
