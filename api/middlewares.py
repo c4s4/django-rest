@@ -31,11 +31,8 @@ def pagination_middleware(get_response):
     '''
     def middleware(request):
         range = None
-        if 'range' in request.GET:
-            range = request.GET['range']
-            params = request.GET.copy()
-            del params['range']
-            request.GET = params
+        if 'Range' in request.META:
+            range = request.META['Range']
         response = get_response(request)
         # if pagination parameter was set, paginate response
         if range:

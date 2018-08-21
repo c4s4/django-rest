@@ -115,9 +115,9 @@ class CustomerTestCase(TestCase):
             'birth_date': '1966-07-14',
         }
         self.assertDictEqual(customers[0], expected)
-    
+
     def test_customer_search_range(self):
-        response = self.client.get('/api/customer/search?range=0-2')
+        response = self.client.get('/api/customer/search', **{'Range': '0-2'})
         self.assertEqual(response.status_code, 206)
         self.assertEqual(response['Content-Range'], '0-2/4')
         customers = json.loads(response.content)
