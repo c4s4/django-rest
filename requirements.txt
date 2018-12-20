@@ -2,3 +2,5 @@ django
 pylint
 yapf
 requests
+django-oauth-toolkit
+django-cors-middleware
